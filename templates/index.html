@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autores</title>
+</head>
+<body>
+    <h1>Autores ordenados por año de muerte</h1>
+    <ul>
+        {% for author in authors %}
+            <li>
+                {{ author.surname }}, {{ author.name }}
+                {% if author.death_year %} († {{ author.death_year }}){% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

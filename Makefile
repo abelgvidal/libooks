@@ -13,6 +13,7 @@ help:
 	@echo "  make makemigrations -m \"mensaje\" - Generar migraciones (flask db migrate)"
 	@echo "  make migrate        - Aplicar migraciones (flask db upgrade)"
 	@echo "  make shell          - Abrir shell Flask"
+	@echo "  make create_tables  - Crear tablas en la base de datos"
 
 venv:
 	python3 -m venv $(VENV)
@@ -24,10 +25,13 @@ run:
 	FLASK_APP=app.py FLASK_ENV=development $(FLASK) run
 
 makemigrations:
-	FLASK_APP=app.py $(FLASK) db migrate -m "$(m)"
+	FLASK_APP=app.py $(FLASK) db migrate
 
 migrate:
 	FLASK_APP=app.py $(FLASK) db upgrade
 
 shell:
 	FLASK_APP=app.py $(FLASK) shell
+
+create_tables:
+	FLASK_APP=app.py $(FLASK) create_tables
