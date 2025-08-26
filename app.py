@@ -38,7 +38,8 @@ class Book(db.Model):
     publisher = db.Column(db.String(100), nullable=True)          
     isbn = db.Column(db.String(20), nullable=True)                
     language = db.Column(db.String(50), nullable=True)
-    edition = db.Column(db.String(50), nullable=True)           
+    edition = db.Column(db.String(50), nullable=True)
+    want_to_read = db.Column(db.Boolean, default=False)
 
     def __str__(self):
         return self.name + " " + self.surname
@@ -50,9 +51,9 @@ class AuthorView(ModelView):
 
 
 class BookView(ModelView):
-    column_list = ['title', 'author', 'year']
+    column_list = ['title', 'author', 'year', 'want_to_read']
     column_searchable_list = ['title']
-    form_columns = ['title', 'author', 'year', 'publisher', 'isbn', 'language', 'edition']
+    form_columns = ['title', 'author', 'year', 'publisher', 'isbn', 'language', 'edition', 'want_to_read']
     form_overrides = {
         'author': QuerySelectField
     }
@@ -71,7 +72,11 @@ admin.add_view(BookView(Book, db.session))
 
 # Public Routes
 @app.route("/")
-def hello_world():
+def index():
     authors = Author.query.order_by(Author.death_year.desc()).all()
-    print(authors)
     return render_template("index.html", authors=authors)
+
+@app.route("/books")
+def books():
+    books = Book.query.order_by(Book.year.desc()).all()
+    return render_template("books.html", books=books)
